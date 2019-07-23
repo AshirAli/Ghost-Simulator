@@ -6,41 +6,45 @@ public class AI_Movement : MonoBehaviour
 {
 #region PUBLIC
     public float m_DelayAtWaypoint;
-    public float m_DelayWhenScared;
+    public float m_DelayDuringScare;
     public Transform[] waypoints;
     public Transform[] safeZones;
-    public bool isScared;
+    [HideInInspector]
+    public bool hasReachedDestination;
 #endregion
 
 #region PRIVATE
     NavMeshAgent navMeshAgent;
     int m_CurrentWaypointIndex;
+    NPC_Controller npc_Controller;
 #endregion
     void Start()
     {
+        npc_Controller = GetComponent<NPC_Controller>();
         InitializeNPC();
     }
     void Update()
     {
-        if(!isScared){
+        if(!npc_Controller.isScared){
             MoveNPC();
+            navMeshAgent.speed = 1f;
         }  
+        ReachedDestination();
     }
 
 #region PUBLIC_METHODS
     ///<summary>Move NPC to Safe Zone after scare</summary>
     public void MoveToSafeZone(){
-        isScared = true;
         Debug.Log("NPC Moving to safe zone");
-        StartCoroutine(DelayAtWaypoint(m_DelayWhenScared));
+        StartCoroutine(DelayAtWaypoint(m_DelayDuringScare));
         m_CurrentWaypointIndex = (m_CurrentWaypointIndex + 1) % safeZones.Length;
         navMeshAgent.SetDestination(safeZones[m_CurrentWaypointIndex].position);
+        navMeshAgent.speed = 1.5f;
     }
 #endregion
 
 #region PRIVATE_METHODS
     void InitializeNPC(){
-        isScared = false;
         navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         navMeshAgent.SetDestination(waypoints[0].position);
     }
@@ -57,6 +61,19 @@ public class AI_Movement : MonoBehaviour
         navMeshAgent.isStopped = true;
         yield return new WaitForSeconds(duration);
         navMeshAgent.isStopped = false;
+    }
+
+    void ReachedDestination(){
+        if (!navMeshAgent.pathPending)
+        {
+            if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+            {
+                if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
+                {
+                    hasReachedDestination = true;
+                }
+            }
+        }  
     }
 #endregion
 }

@@ -23,9 +23,10 @@ public class PlayerController : MonoBehaviour
     GameObject ghostBody;
     Renderer ghostBodyRenderer;
     Color ghostColor;
-    bool m_IsNpcInRange; 
-    bool npcScared;
+    static bool npcScared;
     NPC_Controller npcController;
+    static bool m_IsNpcInRange; 
+    static bool m_NpcDirectContact;
 #endregion
     void Start()
     {
@@ -39,11 +40,22 @@ public class PlayerController : MonoBehaviour
         {
             HandleContact();
         }
+        else{
+            m_NpcDirectContact = false;
+        }
     }
 
 #region PUBLIC_METHODS
-    public void NpcScared(){
-        npcScared = true;
+
+    ///<summary>Set NPC state (scared/not scared)</summary>  
+    public static void NpcScared(bool scare){
+        npcScared = scare;
+    }
+    public static void NpcInRange(bool state){
+        m_IsNpcInRange = state;
+    }
+    public static void NpcDirectContact(bool state){
+        m_NpcDirectContact = state;
     }
 #endregion
 
@@ -59,10 +71,13 @@ public class PlayerController : MonoBehaviour
 
     ///<summary>Handle contact with Ghost and Target-NPC</summary>  
     void HandleContact(){
-        if(Physics.Linecast(transform.position,m_NpcTarget.transform.position)){
-             DirectContact();
-             Debug.Log("Directly Contacted");
+        if(m_NpcDirectContact){
+            DirectContact();
         }
+        //if(Physics.Linecast(transform.position,m_NpcTarget.transform.position)){
+            //Debug.DrawLine(transform.position,m_NpcTarget.transform.position);
+            //Debug.Log("Directly Contacted");
+        //}
     }
 
     ///<summary>Direct contact of Ghost and NPC</summary>  
@@ -104,20 +119,5 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter (Collider other)
-    {
-        if (other.transform == m_NpcTarget.transform)
-        {
-            m_IsNpcInRange = true;
-        }
-    }
-
-    void OnTriggerExit (Collider other)
-    {
-        if(other.transform == m_NpcTarget.transform)
-        {
-            m_IsNpcInRange = false;
-        }
-    }
 #endregion
 }
