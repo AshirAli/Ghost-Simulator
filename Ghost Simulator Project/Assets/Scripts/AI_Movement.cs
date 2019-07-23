@@ -4,20 +4,43 @@ using UnityEngine;
 using UnityEngine.AI;
 public class AI_Movement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public int m_DelayAtWaypoint;
+#region PUBLIC
+    public float m_DelayAtWaypoint;
+    public float m_DelayWhenScared;
     public Transform[] waypoints;
+    public Transform[] safeZones;
+    public bool isScared;
+#endregion
+
+#region PRIVATE
     NavMeshAgent navMeshAgent;
     int m_CurrentWaypointIndex;
+#endregion
     void Start()
     {
         InitializeNPC();
     }
     void Update()
     {
-        MoveNPC();
+        if(!isScared){
+            MoveNPC();
+        }  
     }
+
+#region PUBLIC_METHODS
+    ///<summary>Move NPC to Safe Zone after scare</summary>
+    public void MoveToSafeZone(){
+        isScared = true;
+        Debug.Log("NPC Moving to safe zone");
+        StartCoroutine(DelayAtWaypoint(m_DelayWhenScared));
+        m_CurrentWaypointIndex = (m_CurrentWaypointIndex + 1) % safeZones.Length;
+        navMeshAgent.SetDestination(safeZones[m_CurrentWaypointIndex].position);
+    }
+#endregion
+
+#region PRIVATE_METHODS
     void InitializeNPC(){
+        isScared = false;
         navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         navMeshAgent.SetDestination(waypoints[0].position);
     }
@@ -30,9 +53,10 @@ public class AI_Movement : MonoBehaviour
             //Debug.Log("Current waypoint " + m_CurrentWaypointIndex);
         }
     }
-    IEnumerator DelayAtWaypoint(int duration){
+    IEnumerator DelayAtWaypoint(float duration){
         navMeshAgent.isStopped = true;
         yield return new WaitForSeconds(duration);
         navMeshAgent.isStopped = false;
     }
+#endregion
 }
