@@ -13,17 +13,17 @@ public class NPC_Controller : MonoBehaviour
     public Color scaredColor;
     public Color reliefColor;
     public GameObject ScreamText;
-    public float m_TimeForRelief;   //Time it takes for the NPC to be relieved from the scare
     public bool isScared;   //NPC scared state
-    public int maxScareTimes;   //MaxTimes a NPC be scared?
 #endregion
 
 #region PRIVATE
-    AI_Movement aI_Movement;
-    Renderer[] npcRenderer;
-    int childRenderCount;
-    float timePassedAfterScare;
-    int timeScared;
+    [SerializeField]
+    NPC currentNpc;
+    private AI_Movement aI_Movement;
+    private Renderer[] npcRenderer;
+    private int childRenderCount;
+    private float timePassedAfterScare;
+    private int timeScared;
 #endregion
 
     void Start()
@@ -39,12 +39,12 @@ public class NPC_Controller : MonoBehaviour
             if(aI_Movement.hasReachedDestination){
                 timePassedAfterScare += Time.deltaTime;
                 HandleFearTimer();
-                if(timePassedAfterScare >= m_TimeForRelief){
+                if(timePassedAfterScare >= currentNpc.timeForRelief){
                     HandleRelief();
                 }
             }
         }
-        if(timeScared > maxScareTimes){
+        if(timeScared > currentNpc.maxScareTimes){
             //Handle next stage of NPC
         }
     }
@@ -83,11 +83,11 @@ public class NPC_Controller : MonoBehaviour
         ScreamText.SetActive(false);
     }
     void HandleFearTimer(){
-        var fillPercent = timePassedAfterScare / m_TimeForRelief;
+        var fillPercent = timePassedAfterScare / currentNpc.timeForRelief;
         FearTimer.fillAmount = Mathf.Lerp(0,1,fillPercent);
     }
     void HandleFearBar(){
-        float fillPercent =timeScared / (float) maxScareTimes;
+        float fillPercent =timeScared / (float) currentNpc.maxScareTimes;
         FearBar.fillAmount = fillPercent;
     }
     void OnTriggerEnter (Collider other)
@@ -95,8 +95,18 @@ public class NPC_Controller : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             PlayerController.NpcInRange(true);
-            if(Physics.Linecast(transform.position,m_Player.transform.position)){
-                PlayerController.NpcDirectContact(true);
+            // if(Physics.Linecast(transform.position,m_Player.transform.position)){
+            //     PlayerController.NpcDirectContact(true);
+            Vector3 direction = m_Player.transform.position - transform.position + Vector3.up; //Vector3.up is a shortcut for (0, 1, 0)
+            Ray ray = new Ray (transform.position, direction);
+            RaycastHit raycastHit;
+            Debug.DrawLine(transform.position,direction,Color.red);
+            if(Physics.Raycast(ray, out raycastHit))
+            {
+                if(raycastHit.collider.tag == "Player")
+                {
+                    PlayerController.NpcDirectContact(true);
+                }
             }
         }
     }

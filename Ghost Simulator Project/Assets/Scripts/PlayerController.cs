@@ -11,22 +11,22 @@ public class PlayerController : MonoBehaviour
 
 #region PRIVATE
     [SerializeField]
-    float m_GhostPhaseDelay = 1f; //Delay between phasing of ghost
+    private Player currentPlayer;
     [SerializeField]
-    GameObject m_NpcTarget;
+    private GameObject m_NpcTarget;
     [SerializeField]
-    Color visibleColor = Color.white;
+    private Color visibleColor = Color.white;
     [SerializeField]
-    Color invisibleColor = Color.blue;
-    float colorChangeInterval = 1f; //Duration of color change during phasing
-    float timePassed = 0f;  //Time passed since last phasing
-    GameObject ghostBody;
-    Renderer ghostBodyRenderer;
-    Color ghostColor;
-    static bool npcScared;
-    NPC_Controller npcController;
-    static bool m_IsNpcInRange; 
-    static bool m_NpcDirectContact;
+    private Color invisibleColor = Color.blue;
+    private float colorChangeInterval = 1f; //Duration of color change during phasing
+    private float timePassed = 0f;  //Time passed since last phasing
+    private GameObject ghostBody;
+    private Renderer ghostBodyRenderer;
+    private Color ghostColor;
+    private static bool npcScared;
+    private NPC_Controller npcController;
+    private static bool m_IsNpcInRange; 
+    private static bool m_NpcDirectContact;
 #endregion
     void Start()
     {
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
     ///<summary>HandleInput for ghost</summary>  
     void HandleInput(){
         timePassed += Time.deltaTime;
-        if(timePassed >= m_GhostPhaseDelay){
+        if(timePassed >= currentPlayer.phaseDelay){
             if(Input.GetKey(KeyCode.Space)){
                 Debug.Log("Ghost phased");
                 if(isVisible){
