@@ -27,11 +27,17 @@ public class PlayerController : MonoBehaviour
     private NPC_Controller npcController;
     private static bool m_IsNpcInRange; 
     private static bool m_NpcDirectContact;
+    private GameManager gameManager;
 #endregion
     void Start()
     {
+        currentPlayer = new Player();
         GhostInitialize();
-        npcController = m_NpcTarget.GetComponent<NPC_Controller>();
+        if(m_NpcTarget != null){
+            npcController = m_NpcTarget.GetComponent<NPC_Controller>();
+        }
+        GameObject manager = GameObject.FindGameObjectWithTag("GameController");
+        gameManager = manager.GetComponent<GameManager>();
     }
     void Update()
     {
@@ -39,9 +45,6 @@ public class PlayerController : MonoBehaviour
         if(m_IsNpcInRange && isVisible && !npcScared)
         {
             HandleContact();
-        }
-        else{
-            m_NpcDirectContact = false;
         }
     }
 
@@ -57,6 +60,10 @@ public class PlayerController : MonoBehaviour
     public static void NpcDirectContact(bool state){
         m_NpcDirectContact = state;
     }
+    public void TakeDamage(float damage){
+        currentPlayer.health -= damage;
+        currentPlayer.Print();
+    }
 #endregion
 
 #region PRIVATE_METHODS
@@ -71,9 +78,25 @@ public class PlayerController : MonoBehaviour
 
     ///<summary>Handle contact with Ghost and Target-NPC</summary>  
     void HandleContact(){
-        if(m_NpcDirectContact){
-            DirectContact();
-        }
+        // if(m_NpcDirectContact){
+        //     DirectContact();
+        // }
+            Vector3 direction = m_NpcTarget.transform.position - transform.position + Vector3.up; //Vector3.up is a shortcut for (0, 1, 0)
+            Ray ray = new Ray (transform.position, direction);
+            RaycastHit raycastHit;
+            Debug.DrawRay(transform.position,direction,Color.red);
+            if(Physics.Raycast(ray, out raycastHit,1000f))
+            {
+                Debug.Log(raycastHit.collider.name);
+                if(raycastHit.collider.transform == m_NpcTarget.transform)
+                {
+                    //PlayerController.NpcDirectContact(true);
+                    DirectContact();
+                }
+                else{
+                    m_IsNpcInRange = false;
+                }
+            }
         //if(Physics.Linecast(transform.position,m_NpcTarget.transform.position)){
             //Debug.DrawLine(transform.position,m_NpcTarget.transform.position);
             //Debug.Log("Directly Contacted");
@@ -93,9 +116,11 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Ghost phased");
                 if(isVisible){
                     GhostPhase(false);
+                    gameManager.HandlePostFx(false);
                 }
                 else{
                     GhostPhase(true);
+                    gameManager.HandlePostFx(true);
                 }
                 timePassed = 0f;
             }

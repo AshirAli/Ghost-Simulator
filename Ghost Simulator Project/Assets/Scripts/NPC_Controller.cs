@@ -76,6 +76,11 @@ public class NPC_Controller : MonoBehaviour
         }
         m_DebugText.text = "NPC is relieved";
     }
+
+    ///<summary>Relief time at safe zone is increased by Delay at waypoint</summary> 
+    public void AddToReliefTime(float duration){
+        currentNpc.timeForRelief += duration;
+    }  
 #endregion
 
 #region PRIVATE_METHODS
@@ -97,17 +102,18 @@ public class NPC_Controller : MonoBehaviour
             PlayerController.NpcInRange(true);
             // if(Physics.Linecast(transform.position,m_Player.transform.position)){
             //     PlayerController.NpcDirectContact(true);
-            Vector3 direction = m_Player.transform.position - transform.position + Vector3.up; //Vector3.up is a shortcut for (0, 1, 0)
-            Ray ray = new Ray (transform.position, direction);
-            RaycastHit raycastHit;
-            Debug.DrawLine(transform.position,direction,Color.red);
-            if(Physics.Raycast(ray, out raycastHit))
-            {
-                if(raycastHit.collider.tag == "Player")
-                {
-                    PlayerController.NpcDirectContact(true);
-                }
-            }
+            // Vector3 direction = m_Player.transform.position - transform.position + Vector3.up; //Vector3.up is a shortcut for (0, 1, 0)
+            // Ray ray = new Ray (transform.position, direction);
+            // RaycastHit raycastHit;
+            // Debug.DrawLine(transform.position,direction,Color.red);
+            // if(Physics.Raycast(ray, out raycastHit))
+            // {
+            //     Debug.Log(raycastHit.collider.name);
+            //     if(raycastHit.collider.tag == "Player")
+            //     {
+            //         PlayerController.NpcDirectContact(true);
+            //     }
+            // }
         }
     }
 
@@ -116,6 +122,7 @@ public class NPC_Controller : MonoBehaviour
         if(other.transform.tag == "Player")
         {
             PlayerController.NpcInRange(false);
+            PlayerController.NpcDirectContact(false);
         }
     }
 #endregion

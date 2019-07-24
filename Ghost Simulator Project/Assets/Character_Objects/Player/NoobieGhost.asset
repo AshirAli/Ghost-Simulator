@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8fbdf3eb1c72b2448b047b4122da22c, type: 3}
   m_Name: NoobieGhost
   m_EditorClassIdentifier: 
-  name: Noobie
+  name: kk
   description: Very minimal abilites
   health: 50
   phaseDelay: 1

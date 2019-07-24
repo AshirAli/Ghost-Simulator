@@ -22,6 +22,7 @@ public class AI_Movement : MonoBehaviour
     {
         npc_Controller = GetComponent<NPC_Controller>();
         InitializeNPC();
+        npc_Controller.AddToReliefTime(m_DelayAtWaypoint);
     }
     void Update()
     {

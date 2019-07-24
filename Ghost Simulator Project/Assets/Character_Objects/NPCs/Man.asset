@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbdccb75462d1274d9ca8653c5b87d0e, type: 3}
   m_Name: Man
   m_EditorClassIdentifier: 
-  name: Tom
+  name: Man
   description: Simple man
   health: 50
   attack:
   - prayer
   timeForRelief: 4
-  maxScareTimes: 0
+  maxScareTimes: 3
