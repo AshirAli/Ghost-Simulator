@@ -62,7 +62,7 @@ Material:
     - _EmissiveMap:
         m_Texture: {fileID: 2800000, guid: be14171909e301d4c8c926d395216a01, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: 2, y: 2}
     - _Glossiness:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -139,8 +139,8 @@ Material:
     - _OutlineFront: 1
     - _Parallax: 0.02
     - _ReceiveShadows: 1
-    - _RimBias: 0.391
-    - _RimPower: 5.55
+    - _RimBias: 0.542
+    - _RimPower: 9.3
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 0
@@ -159,7 +159,7 @@ Material:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissiveColor: {r: 0.69886, g: 0.69886, b: 0.69886, a: 1}
+    - _EmissiveColor: {r: 0.84973115, g: 3.82379, b: 4.5576487, a: 1}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineOffset: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
