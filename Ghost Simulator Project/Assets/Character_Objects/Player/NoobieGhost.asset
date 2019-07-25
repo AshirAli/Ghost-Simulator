@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: kk
   description: Very minimal abilites
-  health: 50
+  maxHealth: 50
   phaseDelay: 1
   attack:
   - scare

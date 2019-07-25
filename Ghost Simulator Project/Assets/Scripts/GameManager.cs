@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour{
 
 #region PUBLIC
-    public GameObject m_GlobalPost;
+    public GameObject m_PlayerFx;
     public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
 #endregion
 #region PRIVATE
@@ -42,14 +42,15 @@ public class GameManager : MonoBehaviour{
         playerController.TakeDamage(damage);
     }
     public void HandlePostFx(bool state){
-        m_GlobalPost.SetActive(state);
+        m_PlayerFx.SetActive(state);
+        //  postProfile.settings.
     }
 
 #endregion
 #region PRIVATE_METHODS
     void InitializePostFx(){
-        m_GlobalPost = GameObject.Find("GlobalPost_GhostPhase");
-        m_GlobalPost.SetActive(false);
+        m_PlayerFx = GameObject.Find("PlayerPostFx");
+        m_PlayerFx.SetActive(false);
     }
 #endregion
 }

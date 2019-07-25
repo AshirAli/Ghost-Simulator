@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Man
   description: Simple man
-  health: 50
+  maxHealth: 50
   attack:
   - prayer
   timeForRelief: 4

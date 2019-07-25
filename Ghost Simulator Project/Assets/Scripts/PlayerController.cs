@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+//  public class PlayerSetup 
 public class PlayerController : MonoBehaviour
 {
 #region PUBLIC   
     public Text m_DebugText;
+    public static float currentPlayerHealth;
     public bool isVisible = false;  //Is the ghost visible to NPC's
 #endregion
 
@@ -28,16 +31,19 @@ public class PlayerController : MonoBehaviour
     private static bool m_IsNpcInRange; 
     private static bool m_NpcDirectContact;
     private GameManager gameManager;
+    private int layerMask;  //Layer ignored by raycast- Layer 2
 #endregion
     void Start()
     {
-        currentPlayer = new Player();
+        layerMask = 1 << 2;     // This would cast rays only against colliders in layer 2.
+        layerMask = ~layerMask;    // But instead we want to collide against everything except layer 2. The ~ operator does this, it inverts a bitmask.
         GhostInitialize();
         if(m_NpcTarget != null){
             npcController = m_NpcTarget.GetComponent<NPC_Controller>();
         }
         GameObject manager = GameObject.FindGameObjectWithTag("GameController");
         gameManager = manager.GetComponent<GameManager>();
+        currentPlayerHealth = currentPlayer.MaxHealth;
     }
     void Update()
     {
@@ -46,6 +52,8 @@ public class PlayerController : MonoBehaviour
         {
             HandleContact();
         }
+        // Vector3 direction = m_NpcTarget.transform.position - transform.position + Vector3.up;
+        // Debug.DrawRay(transform.position,direction,Color.red);
     }
 
 #region PUBLIC_METHODS
@@ -61,8 +69,13 @@ public class PlayerController : MonoBehaviour
         m_NpcDirectContact = state;
     }
     public void TakeDamage(float damage){
-        currentPlayer.health -= damage;
-        currentPlayer.Print();
+        currentPlayerHealth -= damage;
+        Debug.Log("Current Player Health " + currentPlayerHealth);
+        if(currentPlayerHealth <= 0 ){
+            HandlePlayerDeath();
+        }
+        //currentPlayer.health -= damage;
+        //currentPlayer.Print();
     }
 #endregion
 
@@ -84,10 +97,11 @@ public class PlayerController : MonoBehaviour
             Vector3 direction = m_NpcTarget.transform.position - transform.position + Vector3.up; //Vector3.up is a shortcut for (0, 1, 0)
             Ray ray = new Ray (transform.position, direction);
             RaycastHit raycastHit;
-            Debug.DrawRay(transform.position,direction,Color.red);
-            if(Physics.Raycast(ray, out raycastHit,1000f))
+            
+            if(Physics.Raycast(ray, out raycastHit,10f,layerMask,QueryTriggerInteraction.Collide))
             {
                 Debug.Log(raycastHit.collider.name);
+                Debug.DrawRay(transform.position,direction,Color.red,10f);
                 if(raycastHit.collider.transform == m_NpcTarget.transform)
                 {
                     //PlayerController.NpcDirectContact(true);
@@ -111,7 +125,7 @@ public class PlayerController : MonoBehaviour
     ///<summary>HandleInput for ghost</summary>  
     void HandleInput(){
         timePassed += Time.deltaTime;
-        if(timePassed >= currentPlayer.phaseDelay){
+        if(timePassed >= currentPlayer.PhaseDelay){
             if(Input.GetKey(KeyCode.Space)){
                 Debug.Log("Ghost phased");
                 if(isVisible){
@@ -144,5 +158,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void HandlePlayerDeath(){
+        Debug.Log("Player Died");
+        //Game Ending
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if(other.transform.tag == "GhostPassThrough"){
+            GhostPassThrough(other, 0.42f);
+        }
+    }
+    private void OnTriggerExit(Collider other) {
+        if(other.transform.tag == "GhostPassThrough"){
+            GhostPassThrough(other, 1f);
+        }
+    }
+    private void GhostPassThrough(Collider other, float alpha){
+        Renderer meshRenderer = other.GetComponent<Renderer>();
+        Color wallColor = meshRenderer.material.color;
+        wallColor.a = alpha;
+        meshRenderer.material.SetColor("_Color",wallColor);
+    }
 #endregion
 }

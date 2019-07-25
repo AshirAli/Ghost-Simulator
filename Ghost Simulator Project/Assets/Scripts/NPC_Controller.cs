@@ -14,6 +14,7 @@ public class NPC_Controller : MonoBehaviour
     public Color reliefColor;
     public GameObject ScreamText;
     public bool isScared;   //NPC scared state
+    public static float currentNpcReliefTime;
 #endregion
 
 #region PRIVATE
@@ -29,6 +30,7 @@ public class NPC_Controller : MonoBehaviour
     void Start()
     {
         isScared = false;
+        currentNpcReliefTime = currentNpc.TimeForRelief;
         aI_Movement = gameObject.GetComponent<AI_Movement>();
         npcRenderer = gameObject.GetComponentsInChildren<Renderer>();
         childRenderCount = npcRenderer.Length;
@@ -39,12 +41,12 @@ public class NPC_Controller : MonoBehaviour
             if(aI_Movement.hasReachedDestination){
                 timePassedAfterScare += Time.deltaTime;
                 HandleFearTimer();
-                if(timePassedAfterScare >= currentNpc.timeForRelief){
+                if(timePassedAfterScare >= currentNpc.TimeForRelief){
                     HandleRelief();
                 }
             }
         }
-        if(timeScared > currentNpc.maxScareTimes){
+        if(timeScared > currentNpc.MaxScareTimes){
             //Handle next stage of NPC
         }
     }
@@ -79,7 +81,7 @@ public class NPC_Controller : MonoBehaviour
 
     ///<summary>Relief time at safe zone is increased by Delay at waypoint</summary> 
     public void AddToReliefTime(float duration){
-        currentNpc.timeForRelief += duration;
+        currentNpcReliefTime += duration;
     }  
 #endregion
 
@@ -88,11 +90,11 @@ public class NPC_Controller : MonoBehaviour
         ScreamText.SetActive(false);
     }
     void HandleFearTimer(){
-        var fillPercent = timePassedAfterScare / currentNpc.timeForRelief;
+        var fillPercent = timePassedAfterScare / currentNpc.TimeForRelief;
         FearTimer.fillAmount = Mathf.Lerp(0,1,fillPercent);
     }
     void HandleFearBar(){
-        float fillPercent =timeScared / (float) currentNpc.maxScareTimes;
+        float fillPercent =timeScared / (float) currentNpc.MaxScareTimes;
         FearBar.fillAmount = fillPercent;
     }
     void OnTriggerEnter (Collider other)
