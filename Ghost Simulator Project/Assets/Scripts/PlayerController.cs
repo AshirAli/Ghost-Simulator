@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
 {
 #region PUBLIC   
     public Text m_DebugText;
-    public static float currentPlayerHealth;
     public bool isVisible = false;  //Is the ghost visible to NPC's
 #endregion
 
@@ -43,7 +42,6 @@ public class PlayerController : MonoBehaviour
         }
         GameObject manager = GameObject.FindGameObjectWithTag("GameController");
         gameManager = manager.GetComponent<GameManager>();
-        currentPlayerHealth = currentPlayer.MaxHealth;
     }
     void Update()
     {
@@ -69,9 +67,9 @@ public class PlayerController : MonoBehaviour
         m_NpcDirectContact = state;
     }
     public void TakeDamage(float damage){
-        currentPlayerHealth -= damage;
-        Debug.Log("Current Player Health " + currentPlayerHealth);
-        if(currentPlayerHealth <= 0 ){
+        currentPlayer.CurrentHealth -= damage;
+        Debug.Log("Current Player Health " + currentPlayer.CurrentHealth);
+        if(currentPlayer.CurrentHealth <= 0 ){
             HandlePlayerDeath();
         }
         //currentPlayer.health -= damage;

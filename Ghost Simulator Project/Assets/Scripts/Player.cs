@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Player", menuName = "Player",order = 51)]
-public class Player : ScriptableObject
+public class Player : ScriptableObject,ISerializationCallbackReceiver
 {
     [SerializeField]
     private new string name;
@@ -11,6 +11,8 @@ public class Player : ScriptableObject
     private string description;
     [SerializeField]
     private float maxHealth;
+    [System.NonSerialized]
+    private float currentHealth;
     [SerializeField]
     private float phaseDelay;    //Delay between phasing of ghost
     [SerializeField]
@@ -30,6 +32,14 @@ public class Player : ScriptableObject
             return maxHealth;
         }
     }
+    public float CurrentHealth{
+        get{
+            return currentHealth;
+        }
+        set{
+            currentHealth = value;
+        }
+    }
     public float PhaseDelay{
         get{
             return phaseDelay;
@@ -40,6 +50,17 @@ public class Player : ScriptableObject
             return attack;
         }
     }
+
+    public void OnAfterDeserialize()    //Implements necessary functions for ISerializationCallbackReceiver interface
+    {
+        currentHealth = maxHealth;
+    }
+
+    public void OnBeforeSerialize() //Implements necessary functions for ISerializationCallbackReceiver interface
+    {
+        
+    }
+
     public void Print(){
         Debug.Log("Npc || Name : " + name + " |Description: " + description + " |Health: " + maxHealth + " |Attack: ");
         foreach(string type in attack){

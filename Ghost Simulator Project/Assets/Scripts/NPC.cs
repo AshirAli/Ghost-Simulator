@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New NPC", menuName = "NPC", order = 52)]
-public class NPC : ScriptableObject
+public class NPC : ScriptableObject,ISerializationCallbackReceiver
 {
     [SerializeField]
     private new string name;
@@ -11,6 +11,8 @@ public class NPC : ScriptableObject
     private string description;
     [SerializeField]
     private float maxHealth;
+    [System.NonSerialized]
+    private float currentHealth;
     [SerializeField]
     private string[] attack;
     [SerializeField]
@@ -33,6 +35,14 @@ public class NPC : ScriptableObject
             return maxHealth;
         }
     }
+    public float CurrentHealth{
+        get{
+            return currentHealth;
+        }
+        set{
+            currentHealth = value;
+        }
+    }
     public string[] Attack{
         get{
             return attack;
@@ -53,5 +63,14 @@ public class NPC : ScriptableObject
         foreach(string type in attack){
             Debug.Log(type + " ");
         }
+    }
+    public void OnAfterDeserialize()    //Implements necessary functions for ISerializationCallbackReceiver interface
+    {
+        currentHealth = maxHealth;
+    }
+
+    public void OnBeforeSerialize() //Implements necessary functions for ISerializationCallbackReceiver interface
+    {
+        
     }
 }
