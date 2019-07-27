@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour{
     //Initializes the game for each level.
     void InitGame()
     {
-        SceneManager.LoadScene("Prototype-Scene");
+        SceneManager.LoadScene("Prototype-Shader-LWRP");
     }
 
     void Start(){
