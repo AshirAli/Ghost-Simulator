@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject m_NpcTarget;
     [SerializeField]
+    private GameObject m_PlayerDamageImage;
+    [SerializeField]
     private Color visibleColor = Color.white;
     [SerializeField]
     private Color invisibleColor = Color.blue;
@@ -67,6 +69,8 @@ public class PlayerController : MonoBehaviour
         m_NpcDirectContact = state;
     }
     public void TakeDamage(float damage){
+        m_PlayerDamageImage.SetActive(true);
+        Invoke("HidePlayerDamageUI",0.5f);
         currentPlayer.CurrentHealth -= damage;
         Debug.Log("Current Player Health " + currentPlayer.CurrentHealth);
         if(currentPlayer.CurrentHealth <= 0 ){
@@ -80,15 +84,16 @@ public class PlayerController : MonoBehaviour
 #region PRIVATE_METHODS
 
     ///<summary>Initialize properties of Ghost</summary>  
-    void GhostInitialize(){
+    private void GhostInitialize(){
         m_DebugText.text = "Invisible at start";
         ghostBody = transform.Find("Body").gameObject; 
         ghostBodyRenderer = ghostBody.GetComponent<Renderer>();
         GhostPhase(isVisible);  //Invisible at start
+        m_PlayerDamageImage.SetActive(false);
     }
 
     ///<summary>Handle contact with Ghost and Target-NPC</summary>  
-    void HandleContact(){
+    private void HandleContact(){
         // if(m_NpcDirectContact){
         //     DirectContact();
         // }
@@ -116,12 +121,12 @@ public class PlayerController : MonoBehaviour
     }
 
     ///<summary>Direct contact of Ghost and NPC</summary>  
-    void DirectContact(){
+    private void DirectContact(){
         npcController.HandleScare();
     }
 
     ///<summary>HandleInput for ghost</summary>  
-    void HandleInput(){
+    private void HandleInput(){
         timePassed += Time.deltaTime;
         if(timePassed >= currentPlayer.PhaseDelay){
             if(Input.GetKey(KeyCode.Space)){
@@ -140,7 +145,7 @@ public class PlayerController : MonoBehaviour
     }
 
     ///<summary>Make Player-ghost visible or invisible (Bool visible?)</summary>  
-    void GhostPhase(bool visible){
+    private void GhostPhase(bool visible){
         isVisible = visible;
         if(visible){    //Ghost now visible
             ghostColor = visibleColor;
@@ -156,7 +161,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void HandlePlayerDeath(){
+    private void HandlePlayerDeath(){
         Debug.Log("Player Died");
         //Game Ending
     }
@@ -176,6 +181,9 @@ public class PlayerController : MonoBehaviour
         Color wallColor = meshRenderer.material.color;
         wallColor.a = alpha;
         meshRenderer.material.SetColor("_Color",wallColor);
+    }
+    private void HidePlayerDamageUI(){
+        m_PlayerDamageImage.SetActive(false);
     }
 #endregion
 }

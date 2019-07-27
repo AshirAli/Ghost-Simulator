@@ -7,6 +7,7 @@ public class NPC_Controller : MonoBehaviour
 {
 #region PUBLIC
     public GameObject m_Player;
+    public GameObject m_PrayerField;
     public Text m_DebugText;
     public Image FearTimer;
     public Image FearBar;
@@ -39,6 +40,7 @@ public class NPC_Controller : MonoBehaviour
     {
         if(isScared){
             if(aI_Movement.hasReachedDestination){
+                m_PrayerField.SetActive(true);
                 timePassedAfterScare += Time.deltaTime;
                 HandleFearTimer();
                 if(timePassedAfterScare >= currentNpc.TimeForRelief){
@@ -70,6 +72,7 @@ public class NPC_Controller : MonoBehaviour
     
     ///<summary>NPC is not afraid</summary>  
     public void HandleRelief(){
+        m_PrayerField.SetActive(false);
         timePassedAfterScare = 0f;
         isScared = false;
         PlayerController.NpcScared(false);
