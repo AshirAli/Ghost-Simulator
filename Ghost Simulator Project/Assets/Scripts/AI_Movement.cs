@@ -74,7 +74,10 @@ public class AI_Movement : MonoBehaviour
                     hasReachedDestination = true;
                 }
             }
-        }  
+        } 
+        else{
+            hasReachedDestination = false;
+        } 
     }
 #endregion
 }

@@ -26,6 +26,7 @@ public class NPC_Controller : MonoBehaviour
     private int childRenderCount;
     private float timePassedAfterScare;
     private int timeScared;
+    private MaterialPropertyBlock materialPropertyBlock;
 #endregion
 
     void Start()
@@ -35,6 +36,7 @@ public class NPC_Controller : MonoBehaviour
         aI_Movement = gameObject.GetComponent<AI_Movement>();
         npcRenderer = gameObject.GetComponentsInChildren<Renderer>();
         childRenderCount = npcRenderer.Length;
+        materialPropertyBlock = new MaterialPropertyBlock();
     }
     void Update()
     {
@@ -42,6 +44,7 @@ public class NPC_Controller : MonoBehaviour
             if(aI_Movement.hasReachedDestination){
                 m_PrayerField.SetActive(true);
                 timePassedAfterScare += Time.deltaTime;
+                //Debug.Log("Time Passed After Scare : " + timePassedAfterScare);
                 HandleFearTimer();
                 if(timePassedAfterScare >= currentNpc.TimeForRelief){
                     HandleRelief();
@@ -61,7 +64,8 @@ public class NPC_Controller : MonoBehaviour
         HandleFearBar();
         PlayerController.NpcScared(true);
         for (int i = 0; i < childRenderCount; i++){
-            npcRenderer[i].material.SetColor("_Color",scaredColor);
+            materialPropertyBlock.SetColor("_BaseColor", scaredColor);
+            npcRenderer[i].SetPropertyBlock(materialPropertyBlock);
         }
         m_DebugText.text = "NPC is scared";
         ScreamText.SetActive(true);
@@ -77,7 +81,8 @@ public class NPC_Controller : MonoBehaviour
         isScared = false;
         PlayerController.NpcScared(false);
         for (int i = 0; i < childRenderCount; ++i){
-            npcRenderer[i].material.SetColor("_Color",reliefColor);
+            materialPropertyBlock.SetColor("_BaseColor", reliefColor);
+            npcRenderer[i].SetPropertyBlock(materialPropertyBlock);
         }
         m_DebugText.text = "NPC is relieved";
     }
@@ -97,7 +102,7 @@ public class NPC_Controller : MonoBehaviour
         FearTimer.fillAmount = Mathf.Lerp(0,1,fillPercent);
     }
     void HandleFearBar(){
-        float fillPercent =timeScared / (float) currentNpc.MaxScareTimes;
+        float fillPercent = timeScared / (float) currentNpc.MaxScareTimes;
         FearBar.fillAmount = fillPercent;
     }
     void OnTriggerEnter (Collider other)
@@ -105,20 +110,6 @@ public class NPC_Controller : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             PlayerController.NpcInRange(true);
-            // if(Physics.Linecast(transform.position,m_Player.transform.position)){
-            //     PlayerController.NpcDirectContact(true);
-            // Vector3 direction = m_Player.transform.position - transform.position + Vector3.up; //Vector3.up is a shortcut for (0, 1, 0)
-            // Ray ray = new Ray (transform.position, direction);
-            // RaycastHit raycastHit;
-            // Debug.DrawLine(transform.position,direction,Color.red);
-            // if(Physics.Raycast(ray, out raycastHit))
-            // {
-            //     Debug.Log(raycastHit.collider.name);
-            //     if(raycastHit.collider.tag == "Player")
-            //     {
-            //         PlayerController.NpcDirectContact(true);
-            //     }
-            // }
         }
     }
 

@@ -52,8 +52,8 @@ public class PlayerController : MonoBehaviour
         {
             HandleContact();
         }
-        // Vector3 direction = m_NpcTarget.transform.position - transform.position + Vector3.up;
-        // Debug.DrawRay(transform.position,direction,Color.red);
+        Vector3 direction = m_NpcTarget.transform.localPosition - transform.localPosition + Vector3.up;
+        Debug.DrawRay(transform.position,direction,Color.red);
     }
 
 #region PUBLIC_METHODS
@@ -97,27 +97,25 @@ public class PlayerController : MonoBehaviour
         // if(m_NpcDirectContact){
         //     DirectContact();
         // }
-            Vector3 direction = m_NpcTarget.transform.position - transform.position + Vector3.up; //Vector3.up is a shortcut for (0, 1, 0)
+            Vector3 direction = m_NpcTarget.transform.localPosition - transform.localPosition + Vector3.up; //Vector3.up is a shortcut for (0, 1, 0)
             Ray ray = new Ray (transform.position, direction);
             RaycastHit raycastHit;
             
             if(Physics.Raycast(ray, out raycastHit,10f,layerMask,QueryTriggerInteraction.Collide))
             {
                 Debug.Log(raycastHit.collider.name);
-                Debug.DrawRay(transform.position,direction,Color.red,10f);
+                //Debug.DrawRay(transform.position,direction,Color.red,10f);
                 if(raycastHit.collider.transform == m_NpcTarget.transform)
                 {
                     //PlayerController.NpcDirectContact(true);
                     DirectContact();
+                    Debug.Log("Direct contact");
                 }
                 else{
                     m_IsNpcInRange = false;
+                    Debug.Log("No direct contact");
                 }
             }
-        //if(Physics.Linecast(transform.position,m_NpcTarget.transform.position)){
-            //Debug.DrawLine(transform.position,m_NpcTarget.transform.position);
-            //Debug.Log("Directly Contacted");
-        //}
     }
 
     ///<summary>Direct contact of Ghost and NPC</summary>  
@@ -130,7 +128,6 @@ public class PlayerController : MonoBehaviour
         timePassed += Time.deltaTime;
         if(timePassed >= currentPlayer.PhaseDelay){
             if(Input.GetKey(KeyCode.Space)){
-                Debug.Log("Ghost phased");
                 if(isVisible){
                     GhostPhase(false);
                     gameManager.HandlePostFx(false);
@@ -164,23 +161,6 @@ public class PlayerController : MonoBehaviour
     private void HandlePlayerDeath(){
         Debug.Log("Player Died");
         //Game Ending
-    }
-
-    private void OnTriggerEnter(Collider other) {
-        if(other.transform.tag == "GhostPassThrough"){
-            GhostPassThrough(other, 0.42f);
-        }
-    }
-    private void OnTriggerExit(Collider other) {
-        if(other.transform.tag == "GhostPassThrough"){
-            GhostPassThrough(other, 1f);
-        }
-    }
-    private void GhostPassThrough(Collider other, float alpha){
-        Renderer meshRenderer = other.GetComponent<Renderer>();
-        Color wallColor = meshRenderer.material.color;
-        wallColor.a = alpha;
-        meshRenderer.material.SetColor("_Color",wallColor);
     }
     private void HidePlayerDamageUI(){
         m_PlayerDamageImage.SetActive(false);

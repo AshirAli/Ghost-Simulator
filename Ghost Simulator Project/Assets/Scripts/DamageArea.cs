@@ -29,7 +29,6 @@ public class DamageArea : MonoBehaviour
 
 #region PRIVATE_METHODS
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("Triggered by object " + other.name);
         if(other.transform.tag == "Player"){    //TakeDamage
             gameManager.PlayerDamage(10f);
         }
