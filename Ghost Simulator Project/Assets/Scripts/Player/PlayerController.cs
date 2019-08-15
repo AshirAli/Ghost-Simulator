@@ -6,14 +6,16 @@ using UnityEngine.UI;
 //  public class PlayerSetup 
 public class PlayerController : MonoBehaviour
 {
-#region PUBLIC   
+#region PUBLIC
     public Text m_DebugText;
     public bool isVisible = false;  //Is the ghost visible to NPC's
 #endregion
 
 #region PRIVATE
     [SerializeField]
-    private Player currentPlayer;
+    private FloatVariable m_CurrentHealth;
+    [SerializeField]
+    private FloatVariable m_PhaseDelay;
     [SerializeField]
     private GameObject m_NpcTarget;
     [SerializeField]
@@ -71,9 +73,9 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float damage){
         m_PlayerDamageImage.SetActive(true);
         Invoke("HidePlayerDamageUI",0.5f);
-        currentPlayer.CurrentHealth.value -= damage;
-        Debug.Log("Current Player Health " + currentPlayer.CurrentHealth);
-        if(currentPlayer.CurrentHealth.value <= 0 ){
+        m_CurrentHealth.value -= damage;
+        Debug.Log("Current Player Health " + m_CurrentHealth);
+        if(m_CurrentHealth.value <= 0 ){
             HandlePlayerDeath();
         }
         //currentPlayer.health -= damage;
@@ -126,7 +128,7 @@ public class PlayerController : MonoBehaviour
     ///<summary>HandleInput for ghost</summary>  
     private void HandleInput(){
         timePassed += Time.deltaTime;
-        if(timePassed >= currentPlayer.PhaseDelay.value){
+        if(timePassed >= m_PhaseDelay.value){
             if(Input.GetKey(KeyCode.Space)){
                 if(isVisible){
                     GhostPhase(false);

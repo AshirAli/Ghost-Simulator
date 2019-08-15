@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 076d2b25b8f5b70488a5a2f18065242a, type: 3}
-  m_Name: CurrentHP
+  m_Name: 03.2_LowHP
   m_EditorClassIdentifier: 
-  value: 100
+  value: 0

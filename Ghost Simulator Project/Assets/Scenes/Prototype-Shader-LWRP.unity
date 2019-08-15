@@ -543,6 +543,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c573ddeff22f5da4fa7b2ff1cb2f54e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &134786800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 134786801}
+  m_Layer: 0
+  m_Name: PlayerSetup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &134786801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134786800}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &160786408
 GameObject:
   m_ObjectHideFlags: 0
@@ -3474,6 +3504,29 @@ PrefabInstance:
       propertyPath: m_PlayerDamageImage
       value: 
       objectReference: {fileID: 1293517954}
+    - target: {fileID: 3851417551707973120, guid: 98b113eab55876c44bad13df767b3319,
+        type: 3}
+      propertyPath: currentPlayer
+      value: 
+      objectReference: {fileID: 11400000, guid: e05f103b3375815439b7acbe95c74128,
+        type: 2}
+    - target: {fileID: 3851417551707973120, guid: 98b113eab55876c44bad13df767b3319,
+        type: 3}
+      propertyPath: m_PhaseDelay
+      value: 
+      objectReference: {fileID: 11400000, guid: 394dae8748f262e4da4e7dc67ac4d2d9,
+        type: 2}
+    - target: {fileID: 3851417551707973120, guid: 98b113eab55876c44bad13df767b3319,
+        type: 3}
+      propertyPath: m_CurrentHealth
+      value: 
+      objectReference: {fileID: 11400000, guid: 6753c5c5428d65b47a91ee04cb2c1e4e,
+        type: 2}
+    - target: {fileID: 3851417551707973120, guid: 98b113eab55876c44bad13df767b3319,
+        type: 3}
+      propertyPath: testEnum
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1256501567, guid: 98b113eab55876c44bad13df767b3319, type: 3}
       propertyPath: m_Layer
       value: 11
@@ -5605,19 +5658,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 822781414}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1554527175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1554527174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b63cc0d66b74c74cbcd36fd54fb8f55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 11400000, guid: e05f103b3375815439b7acbe95c74128, type: 2}
 --- !u!1 &1587697396
 GameObject:
   m_ObjectHideFlags: 0
