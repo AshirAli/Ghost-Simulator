@@ -71,9 +71,9 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float damage){
         m_PlayerDamageImage.SetActive(true);
         Invoke("HidePlayerDamageUI",0.5f);
-        currentPlayer.CurrentHealth -= damage;
+        currentPlayer.CurrentHealth.value -= damage;
         Debug.Log("Current Player Health " + currentPlayer.CurrentHealth);
-        if(currentPlayer.CurrentHealth <= 0 ){
+        if(currentPlayer.CurrentHealth.value <= 0 ){
             HandlePlayerDeath();
         }
         //currentPlayer.health -= damage;
@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
     ///<summary>HandleInput for ghost</summary>  
     private void HandleInput(){
         timePassed += Time.deltaTime;
-        if(timePassed >= currentPlayer.PhaseDelay){
+        if(timePassed >= currentPlayer.PhaseDelay.value){
             if(Input.GetKey(KeyCode.Space)){
                 if(isVisible){
                     GhostPhase(false);

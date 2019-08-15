@@ -5,34 +5,28 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Player", menuName = "Player",order = 51)]
 public class Player : ScriptableObject,ISerializationCallbackReceiver
 {
-    [SerializeField]
-    private new string name;
-    [SerializeField]
-    private string description;
-    [SerializeField]
-    private float maxHealth;
-    [System.NonSerialized]
-    private float currentHealth;
-    [SerializeField]
-    private float phaseDelay;    //Delay between phasing of ghost
-    [SerializeField]
+    private new StringVariable name;
+    private StringVariable description;
+    private FloatVariable maxHealth;
+    private FloatVariable currentHealth;
+    private FloatVariable phaseDelay;    //Delay between phasing of ghost
     private string[] attack;
-    public string Name{
+    public StringVariable Name{
         get{
             return name;
         }
     }
-    public string Description{
+    public StringVariable Description{
         get{
             return description;
         }
     }
-    public float MaxHealth{
+    public FloatVariable MaxHealth{
         get{
             return maxHealth;
         }
     }
-    public float CurrentHealth{
+    public FloatVariable CurrentHealth{
         get{
             return currentHealth;
         }
@@ -40,7 +34,7 @@ public class Player : ScriptableObject,ISerializationCallbackReceiver
             currentHealth = value;
         }
     }
-    public float PhaseDelay{
+    public FloatVariable PhaseDelay{
         get{
             return phaseDelay;
         }
@@ -53,7 +47,7 @@ public class Player : ScriptableObject,ISerializationCallbackReceiver
 
     public void OnAfterDeserialize()    //Implements necessary functions for ISerializationCallbackReceiver interface
     {
-        currentHealth = maxHealth;
+        //currentHealth = maxHealth;
     }
 
     public void OnBeforeSerialize() //Implements necessary functions for ISerializationCallbackReceiver interface
