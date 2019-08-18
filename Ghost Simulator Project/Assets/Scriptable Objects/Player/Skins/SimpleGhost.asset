@@ -12,11 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8fbdf3eb1c72b2448b047b4122da22c, type: 3}
   m_Name: SimpleGhost
   m_EditorClassIdentifier: 
+  GhostType: 0
   name: {fileID: 11400000, guid: 8a9bc1a198c916c4f8c93032dad8181d, type: 2}
   devDescription: {fileID: 11400000, guid: 16caac4edde54ce49b3375add0796fbf, type: 2}
   userDescription: {fileID: 11400000, guid: 8608075659b78fe4d9c4d19f661b4b41, type: 2}
   maxHealth: {fileID: 11400000, guid: 971fce76822f48049be9655a50afd97e, type: 2}
+  lowHealth: {fileID: 0}
+  canTurnInvisible: {fileID: 11400000, guid: da90894f97ea1e74b815dcf19e96eb5f, type: 2}
   phaseTypes: {fileID: 11400000, guid: e5b371c5c6f7bbf48b7ac607fa4cd6ed, type: 2}
-  GhostType: 0
-  attack:
-  - scare
+  scareTypes: {fileID: 11400000, guid: 11c0427f6a7cd4744a6b105b1fbd07cf, type: 2}
+  scareDurations:
+  - {fileID: 11400000, guid: 289aca01047b11e4cb5808067c3a4995, type: 2}
+  - {fileID: 11400000, guid: 1b7efbda6fe29c94ab66689cf58da8a0, type: 2}
+  scareLevels:
+  - {fileID: 11400000, guid: e128d4b7ee1d4e343862eea436ab42f6, type: 2}
+  - {fileID: 11400000, guid: 40a5153a6777f454081d1cddb16d2c06, type: 2}
+  ghostLevels:
+  - {fileID: 11400000, guid: 64997c9d566d28c41b8a48846fac7803, type: 2}
+  - {fileID: 11400000, guid: 714aca90629c1ea4dbd0df595b23043b, type: 2}

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8fbdf3eb1c72b2448b047b4122da22c, type: 3}
+  m_Name: PlayerTemplate
+  m_EditorClassIdentifier: 
+  GhostType: 0
+  name: {fileID: 11400000, guid: 7c3890999f5b925429c5bf3a3544af19, type: 2}
+  devDescription: {fileID: 11400000, guid: 6725451978c5c0c4da175e02bac4f9e5, type: 2}
+  userDescription: {fileID: 11400000, guid: 9ab34279cd93ccf4a82797e895d46fe5, type: 2}
+  maxHealth: {fileID: 11400000, guid: f5a8f3d04ae69984f912b99ef04fb2f3, type: 2}
+  lowHealth: {fileID: 11400000, guid: 04bbc5bd6f0b84f40897767b3cd6ad33, type: 2}
+  canTurnInvisible: {fileID: 11400000, guid: bbbac70353d726741b1d603caf9a6dab, type: 2}
+  phaseTypes: {fileID: 11400000, guid: cdff87239a53e0845aabc743263a7db1, type: 2}
+  scareTypes: {fileID: 11400000, guid: 33274cfd52046d24d8cd93eca0f7706a, type: 2}
+  scareDurations:
+  - {fileID: 11400000, guid: ddc687494e74afc458aac94189f7689a, type: 2}
+  - {fileID: 11400000, guid: be271d655df04b94d80172cb80ae7a81, type: 2}
+  scareLevels:
+  - {fileID: 11400000, guid: 6fd3671ae8d4cb74daf385327828e940, type: 2}
+  - {fileID: 11400000, guid: fdaf14f55c3cfec4ba8e8a23f71a711b, type: 2}
+  ghostLevels:
+  - {fileID: 11400000, guid: 73b2c8ea479ebf04dae7aa460a4697e4, type: 2}
+  - {fileID: 11400000, guid: d6c5358cfe337444184550da8de17bfd, type: 2}

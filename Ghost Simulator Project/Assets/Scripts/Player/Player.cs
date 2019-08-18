@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Player", menuName = "Player",order = 51)]
 public class Player : ScriptableObject //,ISerializationCallbackReceiver
 {
+    public enum Type {Spiritual,SemiSpiritual,Organic};
+    [SerializeField]
+    private Type GhostType;
+
     [Header("Name_01")]
     [SerializeField]
     private new StringVariable name;
@@ -19,6 +23,8 @@ public class Player : ScriptableObject //,ISerializationCallbackReceiver
     [SerializeField]
     [Header("Health_03")]
     private FloatVariable maxHealth;
+    [SerializeField]
+    private FloatVariable lowHealth;
 
     [SerializeField]
     [Header("Invisible_04")]
@@ -29,17 +35,26 @@ public class Player : ScriptableObject //,ISerializationCallbackReceiver
     private StringArray phaseTypes;
     
     [SerializeField]
-    [Header("SpiritualScares_06")]
-    private StringArray spiritualScares;
-    
-    [SerializeField]
-    private Type GhostType;
+    [Header("ScareTypes_06")]
+    private ScareTypes scareTypes;
 
     [SerializeField]
-    private string[] attack;
+    [Header("ScareDurations_07")]
+    private FloatVariable[] scareDurations;
+
     [SerializeField]
-    public enum Type {Spiritual,SemiSpiritual,Organic};
-    //Set Get Methods
+    [Header("ScareLevels_08")]
+    private FloatVariable[] scareLevels;
+
+    [SerializeField]
+    [Header("GhostLevels_09")]
+    private FloatVariable[] ghostLevels;
+    
+        //Set Get Methods
+    public Type CurrentGhostType{
+        get{ return GhostType; }
+        set{ GhostType = value; }
+    }
     public StringVariable Name{
         get{
             return name;
@@ -65,23 +80,27 @@ public class Player : ScriptableObject //,ISerializationCallbackReceiver
             return phaseTypes;
         }
     }
-    public StringArray SpiritualScares{
+    public ScareTypes SpiritualScares{
         get{
-            return spiritualScares;
+            return scareTypes;
+        }
+    }
+    public FloatVariable[] ScareDurations{
+        get{
+            return scareDurations;
+        }
+    }
+    public FloatVariable[] ScareLevels{
+        get{
+            return scareLevels;
         }
     }
 
-    public string[] Attack{
+    public FloatVariable[] GhostLevel{
         get{
-            return attack;
+            return ghostLevels;
         }
     }
-
-    public Type CurrentGhostType{
-        get{ return GhostType; }
-        set{ GhostType = value; }
-    }
-
     // public void OnAfterDeserialize()    //Implements necessary functions for ISerializationCallbackReceiver interface
     // {
     //     //currentHealth = maxHealth;
@@ -94,8 +113,5 @@ public class Player : ScriptableObject //,ISerializationCallbackReceiver
 
     public void Print(){
         Debug.Log("Npc || Name : " + name + " |Description: " + devDescription + " |Health: " + maxHealth + " |Attack: ");
-        foreach(string type in attack){
-            Debug.Log(type + " ");
-        }
     }
 }

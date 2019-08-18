@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f84ea6227b51de4439008dff285b5cfb, type: 3}
-  m_Name: 05_PhaseTypes
+  m_Script: {fileID: 11500000, guid: db2181c80f0ad6a45bef191e21018782, type: 3}
+  m_Name: 06_ScareTypes
   m_EditorClassIdentifier: 
-  value:
-  - Spiritual
+  m_SpiritualScares:
+  - m_ScareType: 0
+    m_Name: Simple Scare
+    m_Damage: 10
+  m_PhysicalScares: []
