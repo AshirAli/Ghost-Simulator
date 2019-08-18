@@ -112,6 +112,6 @@ public class Player : ScriptableObject //,ISerializationCallbackReceiver
     // }
 
     public void Print(){
-        Debug.Log("Npc || Name : " + name + " |Description: " + devDescription + " |Health: " + maxHealth + " |Attack: ");
+        Debug.Log("Npc || Name : " + name + " |Description: " + devDescription + " |Health: " + maxHealth);
     }
 }
